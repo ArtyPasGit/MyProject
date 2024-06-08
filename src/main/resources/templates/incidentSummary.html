@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Incident Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0 auto;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <p id="greeting">Dear colleagues,</p>
+    <p id="incident-summary">Please be aware of <span id="priority" th:text="${incident.priority}"></span> incident within <span id="networkType" th:text="${incident.networkType}"></span> Network infrastructure:</p>
+
+    <p>Service affected: <span id="serviceAffected" th:text="${incident.serviceAffected}"></span></p>
+    <p id="affectedCellsNumbers" th:if="${incident.networkType} == 'Mobile'">
+        Affected cells numbers:
+        2G: <span id="affectedCells" th:text="${incident.affectedCells}"></span>,
+        3G: <span id="affectedCells3G" th:text="${incident.affectedCells3G}"></span>,
+        4G: <span id="affectedCells4G" th:text="${incident.affectedCells4G}"></span>
+    </p>
+    <p>Area affected: <span id="areaAffected" th:text="${incident.areaAffected}"></span></p>
+    <p>Severity level: <span id="severityLevel" th:text="${incident.severityLevel}"></span></p>
+    <p>Start date and time: <span id="startDate" th:text="${incident.startDate}"></span>, <span id="startTime" th:text="${incident.startTime}"></span></p>
+    <p>End date and time: <span id="endDate" th:text="${incident.endDate}"></span>, <span id="endTime" th:text="${incident.endTime}"></span></p>
+    <p>Reason of problem: <span id="reasonOfProblem" th:text="${incident.reasonOfProblem}"></span></p>
+    <p>Incident owner: <span id="incidentOwner" th:text="${incident.incidentOwner}"></span></p>
+    <p>Incident resolution manager: <span id="incidentResolutionManager" th:text="${incident.incidentResolutionManager}"></span></p>
+    <p id="numberOfComplaints" th:if="${incident.priority} == 'P1'">
+        Number of registered complaints: <span th:text="${incident.numberOfComplaints}"></span>
+    </p>
+
+    <button onclick="copyToClipboard()">Copy Text</button>
+    <button onclick="copyToClipboardCustom()">Copy Custom Text</button>
+</div>
+<script>
+    function copyToClipboard() {
+        const priority = document.getElementById('priority').innerText;
+        const networkType = document.getElementById('networkType').innerText;
+        const serviceAffected = document.getElementById('serviceAffected').innerText;
+        const areaAffected = document.getElementById('areaAffected').innerText;
+        const severityLevel = document.getElementById('severityLevel').innerText;
+        const startDate = document.getElementById('startDate').innerText;
+        const startTime = document.getElementById('startTime').innerText;
+        const endDate = document.getElementById('endDate').innerText;
+        const endTime = document.getElementById('endTime').innerText;
+        const reasonOfProblem = document.getElementById('reasonOfProblem').innerText;
+        const incidentOwner = document.getElementById('incidentOwner').innerText;
+        const incidentResolutionManager = document.getElementById('incidentResolutionManager').innerText;
+        const affectedCellsNumbers = document.getElementById('affectedCellsNumbers').style.display !== 'none'
+            ? `Affected cells numbers: 2G: ${document.getElementById('affectedCells').innerText}, 3G: ${document.getElementById('affectedCells3G').innerText}, 4G: ${document.getElementById('affectedCells4G').innerText}`
+            : '';
+        const numberOfComplaints = document.getElementById('numberOfComplaints').style.display !== 'none'
+            ? `Number of registered complaints: ${document.getElementById('numberOfComplaints').innerText}`
+            : '';
+
+        const summaryText = `
+Service affected: ${serviceAffected}
+${affectedCellsNumbers}
+Area affected: ${areaAffected}
+Severity level: ${severityLevel}
+Start date and time: ${startDate}, ${startTime}
+End date and time: ${endDate}, ${endTime}
+Reason of problem: ${reasonOfProblem}
+Incident owner: ${incidentOwner}
+Incident resolution manager: ${incidentResolutionManager}
+${numberOfComplaints}
+        `;
+
+        navigator.clipboard.writeText(summaryText.trim()).then(() => {
+            alert("Text copied to clipboard");
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+        });
+    }
+
+    function copyToClipboardCustom() {
+        const priority = document.getElementById('priority').innerText;
+        const networkType = document.getElementById('networkType').innerText;
+        const serviceAffected = document.getElementById('serviceAffected').innerText;
+        const areaAffected = document.getElementById('areaAffected').innerText;
+        const severityLevel = document.getElementById('severityLevel').innerText;
+        const startDate = document.getElementById('startDate').innerText;
+        const startTime = document.getElementById('startTime').innerText;
+        const endDate = document.getElementById('endDate').innerText;
+        const endTime = document.getElementById('endTime').innerText;
+        const reasonOfProblem = document.getElementById('reasonOfProblem').innerText;
+        const incidentOwner = document.getElementById('incidentOwner').innerText;
+        const incidentResolutionManager = document.getElementById('incidentResolutionManager').innerText;
+        const affectedCellsNumbers = document.getElementById('affectedCellsNumbers').style.display !== 'none'
+            ? `Affected cells numbers: 2G: ${document.getElementById('affectedCells').innerText}, 3G: ${document.getElementById('affectedCells3G').innerText}, 4G: ${document.getElementById('affectedCells4G').innerText}`
+            : '';
+        const numberOfComplaints = document.getElementById('numberOfComplaints').style.display !== 'none'
+            ? `Number of registered complaints: ${document.getElementById('numberOfComplaints').innerText}`
+            : '';
+
+        const customText = `
+${priority} incident within ${networkType} Network infrastructure. Start of problem.
+Service affected: ${serviceAffected}
+${affectedCellsNumbers}
+Area affected: ${areaAffected}
+Severity level: ${severityLevel}
+Start date and time: ${startDate}, ${startTime}
+End date and time: ${endDate}, ${endTime}
+Reason of problem: ${reasonOfProblem}
+Incident owner: ${incidentOwner}
+Incident resolution manager: ${incidentResolutionManager}
+${numberOfComplaints}
+        `;
+
+        navigator.clipboard.writeText(customText.trim()).then(() => {
+            alert("Custom text copied to clipboard");
+        }).catch(err => {
+            console.error('Could not copy custom text: ', err);
+        });
+    }
+</script>
+</body>
+</html>

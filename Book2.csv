@@ -1,0 +1,169 @@
+Lineup;Channel Name;Definition;Category
+1;Moldova 1 HD;HD;General
+2;Jurnal TV HD;HD;General
+3;TV 8 HD;HD;General
+4;PRO TV Chisinau HD;HD;General
+5;TVR Moldova HD;HD;General
+6;R LIVE TV HD;HD;General
+7;One TV HD;HD;General
+8;Star TV HD;HD;General
+9;N4 HD;HD;General
+10;TV5 Monde HD;HD;General
+11;Cinema 1 HD;HD;General
+12;Moldova 2 HD;HD;General
+13;Privesc.eu HD;HD;General
+14;Mega TV HD;HD;General
+15;Premiera TV HD;HD;General
+16;Next TV HD;HD;General
+17;Exclusiv TV HD;HD;General
+18;7TV HD;HD;General
+19;TV9 HD;HD;General
+20;GRT HD;HD;General
+21;TVC 21;HD;General
+22;Vocea Basarabiei HD;SD;General
+23;AXIAL HD;HD;General
+24;Global 24 HD;HD;General
+25;Canal Regional;HD;General
+26;Cotidianul TV HD;SD;General
+27;National TV;SD;General
+28;TeleMoldova+ HD;HD;General
+29;B1 TV HD;HD;General
+30;Moldova TV (Romania);SD;General
+31;A7 HD;HD;General
+32;I????+ HD;HD;General
+33;Freedom;SD;General
+34;RAI 1 HD;HD;General
+35;France 2 HD;HD;General
+36;TVE Internacional HD;HD;General
+37;RTL HD;HD;General
+71;Studio-L HD;HD;General
+72;Drochia TV;SD;General
+73;Soroca TV;SD;General
+74;Elita TV ;SD;General
+101;viju TV1000 HD;HD;Movies
+102;viju TV1000 action HD;HD;Movies
+103;viju TV1000 ??????? HD;HD;Movies
+104;viju+ Megahit HD;HD;Movies
+105;viju+ Premiere HD;HD;Movies
+106;viju+ Comedy HD;HD;Movies
+107;viju+ Serial HD;HD;Movies
+108;viju TV1000 ??????? HD;HD;Movies
+109;TV1000 Balkan (RO);SD;Movies
+110;BBC First HD;HD;Movies
+111;ACASA HD;HD;Movies
+112;ACASA GOLD HD;HD;Movies
+113;FX HD;HD;Movies
+114;FX Life HD;HD;Movies
+115;Comedy Central;SD;Movies
+116;???? ?? HD;HD;Movies
+117;???????? HD;HD;Movies
+118;???????????? HD;HD;Movies
+119;??????? HD;HD;Movies
+120;????????? HD;HD;Movies
+121;??????? ???? HD;HD;Movies
+122;??????????? HD;HD;Movies
+123;?????? ????;SD;Movies
+124;???? ????? ???? HD;HD;Movies
+125;????? HD;HD;Movies
+126;Cinema HD;HD;Movies
+127;FilmuaDrama HD;HD;Movies
+128;.Red HD;HD;Movies
+129;.Black HD;HD;Movies
+130;.Sci-fi HD;HD;Movies
+201;Minimax;SD;Kids
+202;Gurinel TV HD;HD;Kids
+203;??????? ??? HD;HD;Kids
+204;????? HD;HD;Kids
+205;Nickelodeon (RO/RU);SD;Kids
+206;Cartoonito (RO/RU) HD;HD;Kids
+207;Disney Channel (RO);SD;Kids
+208;Disney Junior (RO);SD;Kids
+209;?????????? HD;HD;Kids
+210;JimJam (RO);SD;Kids
+211;English Club TV HD;HD;Kids
+212;Da Vinci HD;HD;Kids
+213;Cartoon Network (RO) HD;HD;Kids
+214;Cartoon Network (RU);SD;Kids
+215;Nick Jr (RO/RU);SD;Kids
+216;Nicktoons (RO);SD;Kids
+217;TeenNick (RO);SD;Kids
+218;TraLaLa HD;HD;Kids
+301;National Geographic HD;HD;Nature & Science
+302;Nat Geo Wild HD;HD;Nature & Science
+303;Discovery Channel HD;HD;Nature & Science
+304;Investigation Discovery HD;HD;Nature & Science
+305;History HD;HD;Nature & Science
+306;viju History HD;HD;Nature & Science
+307;viju Explore HD;HD;Nature & Science
+308;viju+ Planet HD;HD;Nature & Science
+309;viju Nature HD;HD;Nature & Science
+310;Viasat Nature (RO) HD;HD;Nature & Science
+311;Viasat Explore (RO) HD;HD;Nature & Science
+312;Viasat History (RO) HD;HD;Nature & Science
+313;Animal Planet HD;HD;Nature & Science
+314;Love Nature HD;HD;Nature & Science
+315;????? ???????;SD;Nature & Science
+316;??????? HD;HD;Nature & Science
+317;Galaxy HD;HD;Nature & Science
+318;????? HD;HD;Nature & Science
+401;Eurosport 1 HD;HD;Sport
+402;Eurosport 2 HD;HD;Sport
+403;Setanta Sports 1 HD;HD;Sport
+404;Setanta Sports 2 HD;HD;Sport
+405;Setanta Sports HD;HD;Sport
+406;WE SPORT TV HD;HD;Sport
+407;viju+ Sport HD;HD;Sport
+408;Q Sport HD;HD;Sport
+409;KHL Prime HD;HD;Sport
+410;MMA-TV HD;HD;Sport
+411;Realitatea Sportiva HD;HD;Sport
+501;Euronews Romania HD;HD;News
+502;Euronews (RU);SD;News
+503;Euronews (EN) HD;HD;News
+504;National 24 Plus;SD;News
+505;Info TV Romania HD;HD;News
+506;1+1 ???????;SD;News
+507;Realitatea Plus HD;HD;News
+508;Digi 24 HD;HD;News
+509;France 24 English HD;HD;News
+510;France 24 Français HD;HD;News
+511;????????? ????? HD;HD;News
+512;Deutsche Welle (EN) HD;HD;News
+513;CNN International HD;HD;News
+514;BBC News HD;HD;News
+601;Agro TV Moldova HD;HD;Lifestyle
+602;TLC HD;HD;Lifestyle
+603;Travel Mix HD;HD;Lifestyle
+604;Exploris ;SD;Lifestyle
+605;Travel+Adventure HD;HD;Lifestyle
+606;RTG Int.;SD;Lifestyle
+607;????? ? ??????? HD;HD;Lifestyle
+608;???????? ??;SD;Lifestyle
+609;TV Paprika;SD;Lifestyle
+610;????? ?? HD;HD;Lifestyle
+611;Food Network HD;HD;Lifestyle
+612;HGTV HD;HD;Lifestyle
+613;???????;SD;Lifestyle
+614;Kvartal TV HD;HD;Lifestyle
+615;?????;SD;Lifestyle
+616;???????? HD;HD;Lifestyle
+617;Trinitas TV HD;HD;Lifestyle
+618;GNC;SD;Lifestyle
+619;Realitatea Star HD;HD;Lifestyle
+620;Fashion TV HD;HD;Lifestyle
+701;Noroc TV HD;HD;Music
+702;Tezaur TV HD;HD;Music
+703;Busuioc TV;SD;Music
+704;Zona M;SD;Music
+705;Favorit TV;SD;Music
+706;Mooz RO;SD;Music
+707;Mooz Hits;SD;Music
+708;Mooz Dance HD;HD;Music
+709;Europa Plus TV HD;HD;Music
+710;THT Music;SD;Music
+711;?????? ???????;SD;Music
+712;Atomic TV HD;HD;Music
+713;Atomic Academy HD;HD;Music
+714;MTV Live HD;HD;Music
+715;MTV European;SD;Music
+716;MTV 00s;SD;Music
