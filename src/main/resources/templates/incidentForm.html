@@ -7,7 +7,6 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -102,90 +101,47 @@
         #channelsPopup ul li a:hover {
             background-color: #f0f0f0;
         }
+
+        #tvDialog {
+            display: none;
+        }
+
+        #tvDialog.active {
+            display: block !important;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 1;
+            margin: 0 auto;
+            background: #c1c1c1;
+            overflow: auto;
+            color: black;
+        }
+
+        #channelsList {
+            list-style-type: none; /* Remove bullets */
+            padding: 0; /* Remove padding */
+            display: flex;
+            flex-wrap: wrap;
+            font-size: 16px;
+            gap: 10px;
+        }
+
+        #channelsList li {
+            margin-bottom: 10px; /* Space between items */
+        }
+
+        #channelsList li div {
+            display: flex;
+            align-items: center;
+        }
+
+        .buttons-group {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
     </style>
-    <script>
-        function updateContent() {
-            var priority = document.getElementById("priority").value;
-            var contentDiv = document.getElementById("numberOfComplaintsDisplay");
-
-            if (priority === "P1") {
-                contentDiv.style.display = "contents";
-            } else {
-                contentDiv.style.display = "none";
-            }
-        }
-
-function updateNetworkType() {
-    var networkType = document.getElementById("networkType").value;
-    var affectedCellsDiv = document.getElementById("affectedCellsDisplay");
-
-    if (networkType === "Mobile") {
-        affectedCellsDiv.style.display = "flex";
-    } else {
-        affectedCellsDiv.style.display = "none";
-    }
-
-    if (networkType === "TV") {
-        fetchChannels(); // Fetch channels from the server
-        document.getElementById('channelsPopup').style.display = 'block';
-    } else {
-        document.getElementById('channelsPopup').style.display = 'none';
-    }
-}
-
-async function showChannelPopup() {
-    const response = await fetch('/incident/channels');
-    const channels = await response.json();
-
-    const channelSelect = document.getElementById('channelSelect');
-    channelSelect.innerHTML = ''; // Clear previous options
-
-    channels.forEach(channel => {
-        const option = document.createElement('option');
-        option.text = channel.channelName;
-        option.value = channel.channelName;
-        channelSelect.appendChild(option);
-    });
-
-<!--    document.getElementById('channelPopup').style.display = 'block';-->
-}
-
-        function hideChannelsPopup() {
-            document.getElementById('channelsPopup').style.display = 'none';
-        }
-
-function fetchChannels() {
-    fetch('/rest/incident/channels')
-        .then(response => response.json())
-        .then(data => {
-            var channelsList = document.getElementById('channelsList');
-            channelsList.innerHTML = '';
-            data.forEach(channel => {
-                var li = document.createElement('li');
-                var a = document.createElement('a');
-                a.href = 'javascript:void(0);';
-                a.textContent = channel.channelName;
-                a.onclick = function() {
-                    selectChannel(channel.channelName);
-                };
-                li.appendChild(a);
-                channelsList.appendChild(li);
-            });
-        });
-}
-
-
-function selectChannel(channel) {
-    document.getElementById('selectedChannel').value = channel;
-    document.getElementById('channelsPopup').style.display = 'none';
-}
-
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            document.getElementById("networkType").addEventListener('change', updateNetworkType);
-            updateNetworkType(); // Call this initially to set the correct display on load
-        });
-    </script>
 </head>
 <body>
 <form th:action="@{/incident}" th:object="${incident}" method="post">
@@ -257,21 +213,131 @@ function selectChannel(channel) {
     <input type="text" id="incidentResolutionManager" th:field="*{incidentResolutionManager}"/>
 
     <span id="numberOfComplaintsDisplay" style="display:contents">
-        <label for="numberOfComplaints">Number of registered complaints:</label>
-        <input type="text" id="numberOfComplaints" th:field="*{numberOfComplaints}"/>
-    </span>
+            <label for="numberOfComplaints">Number of registered complaints:</label>
+            <input type="text" id="numberOfComplaints" th:field="*{numberOfComplaints}"/>
+        </span>
 
     <input type="hidden" id="selectedChannel" name="selectedChannel" th:field="*{selectedChannel}" />
 
     <button type="submit">Submit</button>
 </form>
 
-<!--<div id="channelPopup">-->
-<!--    <h3>Select a Channel</h3>-->
-<!--    <select id="channelSelect"></select>-->
-<!--    <button onclick="selectChannel(document.getElementById('channelSelect').value)">Select</button>-->
-<!--    <button onclick="document.getElementById('channelPopup').style.display='none'">Close</button>-->
-<!--</div>-->
+<div id="tvDialog">
+    <div id="wrapper" class="channels-list">
+        <ul id="channelsList"></ul>
+        <div class="buttons-group">
+            <button onclick="closeDialog()">Close</button>
+            <button onclick="saveSelectedChannels()">Save</button>
+        </div>
+    </div>
+</div>
 
+<script>
+    let listOfSelectedChannels = [];
+
+    function updateContent() {
+        var priority = document.getElementById("priority").value;
+        var contentDiv = document.getElementById("numberOfComplaintsDisplay");
+
+        if (priority === "P1") {
+            contentDiv.style.display = "contents";
+        } else {
+            contentDiv.style.display = "none";
+        }
+    }
+
+    function updateNetworkType() {
+        var networkType = document.getElementById("networkType").value;
+        var affectedCellsDiv = document.getElementById("affectedCellsDisplay");
+
+        if (networkType === "Mobile") {
+            affectedCellsDiv.style.display = "flex";
+        } else {
+            affectedCellsDiv.style.display = "none";
+        }
+
+        if (networkType === "TV") {
+            let tvDialog = document.getElementById('tvDialog');
+            tvDialog.classList.add('active');
+            fetchChannels(); // Fetch channels from the server
+        } else {
+            document.getElementById('tvDialog').style.display = 'none';
+        }
+    }
+
+    async function showChannelPopup() {
+        const response = await fetch('/incident/channels');
+        const channels = await response.json();
+
+        const channelSelect = document.getElementById('channelSelect');
+        channelSelect.innerHTML = ''; // Clear previous options
+
+        channels.forEach(channel => {
+            const option = document.createElement('option');
+            option.text = channel.channelName;
+            option.value = channel.channelName;
+            channelSelect.appendChild(option);
+        });
+    }
+
+    function hideChannelsPopup() {
+        document.getElementById('channelsPopup').style.display = 'none';
+    }
+
+    function selectChannel(channelName) {
+        console.log('Selected channel:', channelName);
+        listOfSelectedChannels.push(channelName);
+    }
+
+    function fetchChannels() {
+        fetch('/rest/incident/channels')
+            .then(response => response.json())
+            .then(data => {
+                var channelsList = document.getElementById('channelsList');
+                channelsList.innerHTML = '';
+                data.forEach(channel => {
+                    var li = document.createElement('li');
+
+                    var container = document.createElement('div');
+                    container.style.display = 'flex';
+                    container.style.alignItems = 'center';
+
+                    var checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `channel-${channel.id}`;
+                    checkbox.value = channel.channelName;
+                    checkbox.onclick = function() {
+                        selectChannel(channel.channelName);
+                    };
+
+                    var label = document.createElement('label');
+                    label.htmlFor = `channel-${channel.id}`;
+                    label.textContent = `${channel.id} - ${channel.channelName}`;
+
+                    container.appendChild(checkbox);
+                    container.appendChild(label);
+                    li.appendChild(container);
+                    channelsList.appendChild(li);
+                });
+                console.log(data);
+            });
+    }
+
+    function closeDialog() {
+        document.getElementById('tvDialog').classList.remove('active');
+    }
+
+    function saveSelectedChannels() {
+        var serviceAffectedInput = document.getElementById('serviceAffected');
+        listOfSelectedChannels.push('TV channels unavailable')
+        serviceAffectedInput.value = listOfSelectedChannels.join(', ');
+        closeDialog();
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById("networkType").addEventListener('change', updateNetworkType);
+        updateNetworkType(); // Call this initially to set the correct display on load
+    });
+</script>
 </body>
 </html>
