@@ -62,15 +62,46 @@
             margin-right: 5px;
         }
 
-      .custom-grid {
-        grid-column: 1/-1;
-        display: flex;
-        gap: 40px;
-      }
+        .custom-grid {
+            grid-column: 1/-1;
+            display: flex;
+            gap: 40px;
+        }
 
-      .custom-grid div {
-        width: 33%
-      }
+        .custom-grid div {
+            width: 33%;
+        }
+
+        #channelsPopup {
+            display: none;
+            position: fixed;
+            background-color: white;
+            border: 1px solid #000;
+            padding: 20px;
+            z-index: 1000;
+            width: 300px;
+            height: 400px;
+            overflow-y: auto;
+        }
+
+        #channelsPopup ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #channelsPopup ul li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #channelsPopup ul li a {
+            text-decoration: none;
+            color: black;
+        }
+
+        #channelsPopup ul li a:hover {
+            background-color: #f0f0f0;
+        }
     </style>
     <script>
         function updateContent() {
@@ -84,17 +115,71 @@
             }
         }
 
-        function updateNetworkType() {
-            var networkType = document.getElementById("networkType").value;
-            var affectedCellsDiv = document.getElementById("affectedCellsDisplay");
+function updateNetworkType() {
+    var networkType = document.getElementById("networkType").value;
+    var affectedCellsDiv = document.getElementById("affectedCellsDisplay");
 
-            console.log('network', networkType)
-            if (networkType === "Mobile") {
-                affectedCellsDiv.style.display = "flex";
-            } else {
-                affectedCellsDiv.style.display = "none";
-            }
+    if (networkType === "Mobile") {
+        affectedCellsDiv.style.display = "flex";
+    } else {
+        affectedCellsDiv.style.display = "none";
+    }
+
+    if (networkType === "TV") {
+        fetchChannels(); // Fetch channels from the server
+        document.getElementById('channelsPopup').style.display = 'block';
+    } else {
+        document.getElementById('channelsPopup').style.display = 'none';
+    }
+}
+
+async function showChannelPopup() {
+    const response = await fetch('/incident/channels');
+    const channels = await response.json();
+
+    const channelSelect = document.getElementById('channelSelect');
+    channelSelect.innerHTML = ''; // Clear previous options
+
+    channels.forEach(channel => {
+        const option = document.createElement('option');
+        option.text = channel.channelName;
+        option.value = channel.channelName;
+        channelSelect.appendChild(option);
+    });
+
+<!--    document.getElementById('channelPopup').style.display = 'block';-->
+}
+
+        function hideChannelsPopup() {
+            document.getElementById('channelsPopup').style.display = 'none';
         }
+
+function fetchChannels() {
+    fetch('/rest/incident/channels')
+        .then(response => response.json())
+        .then(data => {
+            var channelsList = document.getElementById('channelsList');
+            channelsList.innerHTML = '';
+            data.forEach(channel => {
+                var li = document.createElement('li');
+                var a = document.createElement('a');
+                a.href = 'javascript:void(0);';
+                a.textContent = channel.channelName;
+                a.onclick = function() {
+                    selectChannel(channel.channelName);
+                };
+                li.appendChild(a);
+                channelsList.appendChild(li);
+            });
+        });
+}
+
+
+function selectChannel(channel) {
+    document.getElementById('selectedChannel').value = channel;
+    document.getElementById('channelsPopup').style.display = 'none';
+}
+
 
         document.addEventListener('DOMContentLoaded', (event) => {
             document.getElementById("networkType").addEventListener('change', updateNetworkType);
@@ -123,16 +208,12 @@
 
     <div class="custom-grid" id="affectedCellsDisplay">
         <div style="display: block">
-            <label for="affectedCells">Affected cells number: 2G: </label>
+            <label for="affectedCells">Affected cells number: 2G:</label>
             <input type="text" id="affectedCells" th:field="*{affectedCells}"/>
-
-
         </div>
         <div style="display:block">
             <label for="affectedCells3G">Affected cells number: 3G:</label>
             <input type="text" id="affectedCells3G" th:field="*{affectedCells3G}"/>
-
-
         </div>
         <div style="display: block">
             <label for="affectedCells4G">Affected cells number: 4G:</label>
@@ -143,7 +224,7 @@
     <label for="areaAffected">Area affected:</label>
     <input type="text" id="areaAffected" th:field="*{areaAffected}"/>
 
-    <label for="severityLevel">Network Type:</label>
+    <label for="severityLevel">Severity Level:</label>
     <select id="severityLevel" th:field="*{severityLevel}">
         <option value="Low">Low</option>
         <option value="High">High</option>
@@ -180,7 +261,17 @@
         <input type="text" id="numberOfComplaints" th:field="*{numberOfComplaints}"/>
     </span>
 
+    <input type="hidden" id="selectedChannel" name="selectedChannel" th:field="*{selectedChannel}" />
+
     <button type="submit">Submit</button>
 </form>
+
+<!--<div id="channelPopup">-->
+<!--    <h3>Select a Channel</h3>-->
+<!--    <select id="channelSelect"></select>-->
+<!--    <button onclick="selectChannel(document.getElementById('channelSelect').value)">Select</button>-->
+<!--    <button onclick="document.getElementById('channelPopup').style.display='none'">Close</button>-->
+<!--</div>-->
+
 </body>
 </html>

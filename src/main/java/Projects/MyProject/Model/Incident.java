@@ -4,6 +4,8 @@ public class Incident {
     private String serviceAffected;
     private String affectedCells;
 
+    private String selectedChannel;
+
     public String getAffectedCells3G() {
         return affectedCells3G;
     }
@@ -18,6 +20,14 @@ public class Incident {
 
     public void setAffectedCells4G(String affectedCells4G) {
         this.affectedCells4G = affectedCells4G;
+    }
+
+    public String getSelectedChannel() {
+        return selectedChannel;
+    }
+
+    public void setSelectedChannel(String selectedChannel) {
+        this.selectedChannel = selectedChannel;
     }
 
     private String affectedCells3G;

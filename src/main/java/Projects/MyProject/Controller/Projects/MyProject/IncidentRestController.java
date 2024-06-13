@@ -9,21 +9,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/incident")
-public class IncidentController {
+@RestController
+@RequestMapping("/rest/incident")
+public class IncidentRestController {
 
     @Autowired
     private ChannelService channelService;
 
-    @GetMapping
-    public String showForm(Model model) {
-        model.addAttribute("incident", new Incident());
-        return "incidentForm";
+
+   @GetMapping("/channels/name")
+    public List<String> getChannelsNames() {
+        return channelService.getAllChannels().stream()
+                .map(Channel::getChannelName).collect(Collectors.toList());
     }
 
     @GetMapping("/channels")
@@ -31,9 +33,4 @@ public class IncidentController {
         return channelService.getAllChannels();
     }
 
-    @PostMapping
-    public String submitForm(Incident incident, Model model) {
-        model.addAttribute("incident", incident);
-        return "incidentSummary";
-    }
 }
