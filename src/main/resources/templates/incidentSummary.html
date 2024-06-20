@@ -7,7 +7,7 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -69,39 +69,24 @@
 
     <button onclick="copyToClipboard()">Copy Text</button>
     <button onclick="copyToClipboardCustom()">Copy Custom Text</button>
+    <button onclick="sendViaWhatsApp()">Send via WhatsApp</button>
 </div>
 <script>
     function copyToClipboard() {
-        const priority = document.getElementById('priority').innerText;
-        const networkType = document.getElementById('networkType').innerText;
-        const serviceAffected = document.getElementById('serviceAffected').innerText;
-        const areaAffected = document.getElementById('areaAffected').innerText;
-        const severityLevel = document.getElementById('severityLevel').innerText;
-        const startDate = document.getElementById('startDate').innerText;
-        const startTime = document.getElementById('startTime').innerText;
-        const endDate = document.getElementById('endDate').innerText;
-        const endTime = document.getElementById('endTime').innerText;
-        const reasonOfProblem = document.getElementById('reasonOfProblem').innerText;
-        const incidentOwner = document.getElementById('incidentOwner').innerText;
-        const incidentResolutionManager = document.getElementById('incidentResolutionManager').innerText;
-        const affectedCellsNumbers = document.getElementById('affectedCellsNumbers').style.display !== 'none'
-            ? `Affected cells numbers: 2G: ${document.getElementById('affectedCells').innerText}, 3G: ${document.getElementById('affectedCells3G').innerText}, 4G: ${document.getElementById('affectedCells4G').innerText}`
-            : '';
-        const numberOfComplaints = document.getElementById('numberOfComplaints').style.display !== 'none'
-            ? `Number of registered complaints: ${document.getElementById('numberOfComplaints').innerText}`
-            : '';
-
         const summaryText = `
-Service affected: ${serviceAffected}
-${affectedCellsNumbers}
-Area affected: ${areaAffected}
-Severity level: ${severityLevel}
-Start date and time: ${startDate}, ${startTime}
-End date and time: ${endDate}, ${endTime}
-Reason of problem: ${reasonOfProblem}
-Incident owner: ${incidentOwner}
-Incident resolution manager: ${incidentResolutionManager}
-${numberOfComplaints}
+Dear colleagues,
+
+Please be aware of ${document.getElementById('priority').innerText} incident within ${document.getElementById('networkType').innerText} Network infrastructure:
+Service affected: ${document.getElementById('serviceAffected').innerText}
+${document.getElementById('affectedCellsNumbers').style.display !== 'none' ? 'Affected cells numbers: 2G: ' + document.getElementById('affectedCells').innerText + ', 3G: ' + document.getElementById('affectedCells3G').innerText + ', 4G: ' + document.getElementById('affectedCells4G').innerText : ''}
+Area affected: ${document.getElementById('areaAffected').innerText}
+Severity level: ${document.getElementById('severityLevel').innerText}
+Start date and time: ${document.getElementById('startDate').innerText}, ${document.getElementById('startTime').innerText}
+End date and time: ${document.getElementById('endDate').innerText}, ${document.getElementById('endTime').innerText}
+Reason of problem: ${document.getElementById('reasonOfProblem').innerText}
+Incident owner: ${document.getElementById('incidentOwner').innerText}
+Incident resolution manager: ${document.getElementById('incidentResolutionManager').innerText}
+${document.getElementById('numberOfComplaints').style.display !== 'none' ? 'Number of registered complaints: ' + document.getElementById('numberOfComplaints').innerText : ''}
         `;
 
         navigator.clipboard.writeText(summaryText.trim()).then(() => {
@@ -150,6 +135,47 @@ ${numberOfComplaints}
         }).catch(err => {
             console.error('Could not copy custom text: ', err);
         });
+    }
+
+    function sendViaWhatsApp() {
+        const priority = document.getElementById('priority').innerText;
+        const networkType = document.getElementById('networkType').innerText;
+        const serviceAffected = document.getElementById('serviceAffected').innerText;
+        const areaAffected = document.getElementById('areaAffected').innerText;
+        const severityLevel = document.getElementById('severityLevel').innerText;
+        const startDate = document.getElementById('startDate').innerText;
+        const startTime = document.getElementById('startTime').innerText;
+        const endDate = document.getElementById('endDate').innerText;
+        const endTime = document.getElementById('endTime').innerText;
+        const reasonOfProblem = document.getElementById('reasonOfProblem').innerText;
+        const incidentOwner = document.getElementById('incidentOwner').innerText;
+        const incidentResolutionManager = document.getElementById('incidentResolutionManager').innerText;
+        const affectedCellsNumbers = document.getElementById('affectedCellsNumbers').style.display !== 'none'
+            ? `Affected cells numbers: 2G: ${document.getElementById('affectedCells').innerText}, 3G: ${document.getElementById('affectedCells3G').innerText}, 4G: ${document.getElementById('affectedCells4G').innerText}`
+            : '';
+        const numberOfComplaints = document.getElementById('numberOfComplaints').style.display !== 'none'
+            ? `Number of registered complaints: ${document.getElementById('numberOfComplaints').innerText}`
+            : '';
+
+        const message = `
+*${priority} incident within ${networkType} Network infrastructure. Start of problem.*
+
+Service affected: ${serviceAffected}
+${affectedCellsNumbers}
+Area affected: ${areaAffected}
+Severity level: ${severityLevel}
+Start date and time: ${startDate}, ${startTime}
+End date and time: ${endDate}, ${endTime}
+Reason of problem: ${reasonOfProblem}
+Incident owner: ${incidentOwner}
+Incident resolution manager: ${incidentResolutionManager}
+${numberOfComplaints}
+        `.trim();
+
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+
+        window.open(whatsappUrl, '_blank');
     }
 </script>
 </body>
