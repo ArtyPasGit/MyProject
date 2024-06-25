@@ -123,12 +123,12 @@
             padding: 0; /* Remove padding */
             display: flex;
             flex-wrap: wrap;
-            font-size: 16px;
-            gap: 10px;
+            font-size: 14px;
+            gap: 5px;
         }
 
         #channelsList li {
-            margin-bottom: 10px; /* Space between items */
+            margin-bottom: 7px; /* Space between items */
         }
 
         #channelsList li div {
@@ -145,6 +145,13 @@
 </head>
 <body>
 <form th:action="@{/incident}" th:object="${incident}" method="post">
+
+    <label for="startEnd">Start or End:</label>
+    <select id="startEnd" th:field="*{startEnd}" onchange="updateStartEnd()">
+        <option value="Start">Start of Problem</option>
+        <option value="End">End of Problem</option>
+    </select>
+
     <label for="priority">Priority:</label>
     <select id="priority" th:field="*{priority}" onchange="updateContent()">
         <option value="P1">P1</option>
@@ -189,20 +196,20 @@
 
     <div style="display:block">
         <label for="startDate">Start date:</label>
-        <input type="date" id="startDate" th:field="*{startDate}"/>
-
-        <label for="startTime">Start time:</label>
-        <input type="time" id="startTime" th:field="*{startTime}"/>
+        <input type="datetime-local" id="startDate" th:field="*{startDate}"/>
+<!--        <label for="endDate">End date:</label>
+        <input type="datetime-local" id="endDate" th:field="*{endDate}"/>-->
     </div>
-
-    <div style="display:block">
+    <br>
+    <span id="endDateDisplay" style="display: none">
         <label for="endDate">End date:</label>
-        <input type="date" id="endDate" th:field="*{endDate}"/>
+        <input type="datetime-local" id="endDate" th:field="*{endDate}"/>
+    </span>
+    <br>
+  <!--  <div style="display:block">
 
-        <label for="endTime">End time:</label>
-        <input type="time" id="endTime" th:field="*{endTime}"/>
-    </div>
-
+    </div>-->
+    <br>
     <label for="reasonOfProblem">Reason of problem:</label>
     <textarea id="reasonOfProblem" th:field="*{reasonOfProblem}"></textarea>
 
@@ -241,6 +248,16 @@
 
         if (priority === "P1") {
             contentDiv.style.display = "contents";
+        } else {
+            contentDiv.style.display = "none";
+        }
+    }
+    function updateStartEnd() {
+        var startEnd = document.getElementById("startEnd").value;
+        var contentDiv = document.getElementById("endDateDisplay");
+
+        if (startEnd === "End") {
+            contentDiv.style.display = "block";
         } else {
             contentDiv.style.display = "none";
         }
@@ -337,6 +354,7 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById("networkType").addEventListener('change', updateNetworkType);
         updateNetworkType(); // Call this initially to set the correct display on load
+        updateStartEnd(); // Call this initially to set the correct display on load
     });
 </script>
 </body>

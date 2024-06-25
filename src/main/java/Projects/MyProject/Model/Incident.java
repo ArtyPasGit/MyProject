@@ -3,7 +3,7 @@ package Projects.MyProject.Model;
 public class Incident {
     private String serviceAffected;
     private String affectedCells;
-
+    private String startEnd;
     private String selectedChannel;
 
     public String getAffectedCells3G() {
@@ -159,4 +159,12 @@ public class Incident {
     public void setNetworkType(String networkType) {
         this.networkType = networkType;
     }
+    public String getStartEnd() {
+        return startEnd;
+    }
+
+    public void setStartEnd(String startEnd) {
+        this.startEnd = startEnd;
+    }
+
 }

@@ -1,3 +1,14 @@
+ function updateStartEnd() {
+        var startEnd = document.getElementById("startEnd").value;
+        var contentDiv = document.getElementById("endDateDisplay");
+
+        if (startEnd === "End") {
+            contentDiv.style.display = "block";
+        } else {
+            contentDiv.style.display = "none";
+        }
+    }
+
 function updateContent() {
         var priority = document.getElementById("priority").value;
         var contentDiv = document.getElementById("numberOfComplaintsDisplay");
@@ -105,4 +116,5 @@ function fetchChannels() {
     document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById("networkType").addEventListener('change', updateNetworkType);
         updateNetworkType(); // Call this initially to set the correct display on load
+        updateStartEnd(); // Call this initially to set the correct display on load
     });
